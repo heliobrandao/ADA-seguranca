@@ -1,0 +1,27 @@
+$script = @'
+import java.security.*;
+import java.util.*;
+
+var generator = KeyPairGenerator.getInstance("RSA");
+generator.initialize(2048);
+var pair = generator.generateKeyPair();
+System.out.println("JWT_PRIVATE_KEY_B64=" + Base64.getEncoder().encodeToString(pair.getPrivate().getEncoded()));
+System.out.println("JWT_PUBLIC_KEY_B64=" + Base64.getEncoder().encodeToString(pair.getPublic().getEncoded()));
+/exit
+'@
+
+$output = $script | jshell -s -
+$privateLine = $output | Select-String '^JWT_PRIVATE_KEY_B64=' | Select-Object -First 1
+$publicLine = $output | Select-String '^JWT_PUBLIC_KEY_B64=' | Select-Object -First 1
+
+if (-not $privateLine -or -not $publicLine) {
+    throw "Não foi possível gerar o par de chaves RSA."
+}
+
+$privateKey = $privateLine.ToString().Substring("JWT_PRIVATE_KEY_B64=".Length)
+$publicKey = $publicLine.ToString().Substring("JWT_PUBLIC_KEY_B64=".Length)
+
+[Environment]::SetEnvironmentVariable("JWT_PRIVATE_KEY_B64", $privateKey, "User")
+[Environment]::SetEnvironmentVariable("JWT_PUBLIC_KEY_B64", $publicKey, "User")
+$env:JWT_PRIVATE_KEY_B64 = $privateKey
+$env:JWT_PUBLIC_KEY_B64 = $publicKey
