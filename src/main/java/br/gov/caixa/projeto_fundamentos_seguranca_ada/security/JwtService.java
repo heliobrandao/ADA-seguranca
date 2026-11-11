@@ -4,8 +4,7 @@ import java.time.Duration;
 import java.time.Instant;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
+import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
@@ -28,18 +27,17 @@ public class JwtService {
         this.expiration = expiration;
     }
 
-    public String gerarToken(Authentication authentication) {
+    public String gerarToken(String username) {
         Instant issuedAt = Instant.now();
 
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer(issuer)
-                .subject(authentication.getName())
+                .subject(username)
                 .issuedAt(issuedAt)
                 .expiresAt(issuedAt.plus(expiration))
                 .build();
 
-        JwsHeader header = JwsHeader.with(SignatureAlgorithm.RS256).build();
-
+        JwsHeader header = JwsHeader.with(MacAlgorithm.HS256).build();
         return jwtEncoder.encode(
                 JwtEncoderParameters.from(header, claims)
         ).getTokenValue();
