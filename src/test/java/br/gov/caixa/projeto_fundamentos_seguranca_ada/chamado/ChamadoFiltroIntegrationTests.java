@@ -21,8 +21,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.transaction.annotation.Transactional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -167,8 +169,121 @@ class ChamadoFiltroIntegrationTests {
                 .andExpect(status().isUnauthorized());
     }
 
+    @Test
+    void consultaChamadoDoUsuarioAutenticado() throws Exception {
+        Long chamadoId = chamadoId("usuario.a", "Impressora sem papel");
+
+        mockMvc.perform(requisicaoAutenticada(chamadoId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(chamadoId))
+                .andExpect(jsonPath("$.titulo").value("Impressora sem papel"));
+    }
+
+    @Test
+    void chamadoInexistenteEOChamadoDeOutroUsuarioRetornamMesmo404() throws Exception {
+        Long chamadoDeOutroUsuario = chamadoId("usuario.b", "Impressora sem papel");
+        String respostaInexistente = mockMvc.perform(requisicaoAutenticada(999999L))
+                .andExpect(status().isNotFound())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        String respostaDeOutroUsuario = mockMvc.perform(requisicaoAutenticada(chamadoDeOutroUsuario))
+                .andExpect(status().isNotFound())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        assertThat(respostaDeOutroUsuario).isEqualTo(respostaInexistente);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"ABERTO", "EM_ANDAMENTO", "FECHADO"})
+    void atualizaStatusParaValoresPermitidos(String novoStatus) throws Exception {
+        Long chamadoId = chamadoId("usuario.a", "Impressora sem papel");
+
+        mockMvc.perform(patch("/chamados/{id}/status", chamadoId)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                        .contentType("application/json")
+                        .content("{\"status\":\"" + novoStatus + "\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(chamadoId))
+                .andExpect(jsonPath("$.status").value(novoStatus));
+    }
+
+    @Test
+    void statusDeAtualizacaoInvalidoRetornaBadRequest() throws Exception {
+        Long chamadoId = chamadoId("usuario.a", "Impressora sem papel");
+
+        mockMvc.perform(patch("/chamados/{id}/status", chamadoId)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                        .contentType("application/json")
+                        .content("{\"status\":\"CANCELADO\"}"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void chamadoFechadoNaoPodeVoltarParaAberto() throws Exception {
+        Long chamadoFechadoId = chamadoId("usuario.a", "Impressora sem tinta");
+
+        mockMvc.perform(patch("/chamados/{id}/status", chamadoFechadoId)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                        .contentType("application/json")
+                        .content("{\"status\":\"ABERTO\"}"))
+                .andExpect(status().isBadRequest());
+
+        assertThat(chamadoRepository
+                .buscarPorIdEUsuario(chamadoFechadoId, "usuario.a")
+                .orElseThrow()
+                .getStatus()).isEqualTo(StatusChamado.FECHADO);
+    }
+
+    @Test
+    void naoAtualizaChamadoDeOutroUsuario() throws Exception {
+        Long chamadoDeOutroUsuario = chamadoId("usuario.b", "Impressora sem papel");
+
+        mockMvc.perform(patch("/chamados/{id}/status", chamadoDeOutroUsuario)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                        .contentType("application/json")
+                        .content("{\"status\":\"FECHADO\"}"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void naoAtualizaChamadoInexistente() throws Exception {
+        mockMvc.perform(patch("/chamados/{id}/status", 999999L)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                        .contentType("application/json")
+                        .content("{\"status\":\"FECHADO\"}"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void endpointsDeConsultaEAtualizacaoExigemAutenticacao() throws Exception {
+        Long chamadoId = chamadoId("usuario.a", "Impressora sem papel");
+
+        mockMvc.perform(get("/chamados/{id}", chamadoId))
+                .andExpect(status().isUnauthorized());
+        mockMvc.perform(patch("/chamados/{id}/status", chamadoId)
+                        .contentType("application/json")
+                        .content("{\"status\":\"FECHADO\"}"))
+                .andExpect(status().isUnauthorized());
+    }
+
     private MockHttpServletRequestBuilder requisicaoAutenticada() {
         return get("/chamados").header(HttpHeaders.AUTHORIZATION, "Bearer " + token);
+    }
+
+    private MockHttpServletRequestBuilder requisicaoAutenticada(Long chamadoId) {
+        return get("/chamados/{id}", chamadoId)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token);
+    }
+
+    private Long chamadoId(String username, String titulo) {
+        return chamadoRepository.findAllByUsuario_UsernameOrderByCriadoEmDesc(username).stream()
+                .filter(chamado -> chamado.getTitulo().equals(titulo))
+                .findFirst()
+                .orElseThrow()
+                .getId();
     }
 
     private void salvarChamado(String titulo, StatusChamado status, Usuario usuario) {

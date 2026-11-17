@@ -53,7 +53,7 @@ class ChamadoControllerListarMeusChamadosTest {
                 PrioridadeChamado.MEDIA,
                 bruno));
 
-        List<ChamadoResponse> chamadosDaAna = chamadoService.listarMeusChamados("ana.souza");
+        List<ChamadoResponse> chamadosDaAna = chamadoService.listarMeusChamados("ana.souza", null, null);
 
         assertThat(chamadosDaAna).hasSize(1);
         assertThat(chamadosDaAna.get(0).titulo()).isEqualTo("Notebook muito lento");
@@ -64,7 +64,7 @@ class ChamadoControllerListarMeusChamadosTest {
     void deveRetornarListaVaziaQuandoUsuarioNaoTemChamados() {
         usuarioRepository.save(new Usuario("Carlos Silva", "carlos.silva", "hash-c"));
 
-        List<ChamadoResponse> chamados = chamadoService.listarMeusChamados("carlos.silva");
+        List<ChamadoResponse> chamados = chamadoService.listarMeusChamados("carlos.silva", null, null);
 
         assertThat(chamados).isEmpty();
     }

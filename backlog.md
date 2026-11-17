@@ -315,13 +315,13 @@ GET /chamados?status=ABERTO\&titulo=impressora
 
 #### Critérios de aceite
 
-* \[ ] Chamado pertencente ao usuário retorna `200 OK`.
-* \[ ] Chamado inexistente retorna `404 Not Found`.
-* \[ ] Chamado pertencente a outro usuário retorna `404 Not Found`.
-* \[ ] As duas situações de 404 utilizam o mesmo formato de resposta.
-* \[ ] A consulta filtra simultaneamente pelo ID e pelo proprietário.
-* \[ ] A consulta não busca apenas pelo ID para depois revelar o proprietário.
-* \[ ] Requisição sem token válido retorna `401 Unauthorized`.
+* \[x] Chamado pertencente ao usuário retorna `200 OK`.
+* \[x] Chamado inexistente retorna `404 Not Found`.
+* \[x] Chamado pertencente a outro usuário retorna `404 Not Found`.
+* \[x] As duas situações de 404 utilizam o mesmo formato de resposta.
+* \[x] A consulta filtra simultaneamente pelo ID e pelo proprietário.
+* \[x] A consulta não busca apenas pelo ID para depois revelar o proprietário.
+* \[x] Requisição sem token válido retorna `401 Unauthorized`.
 
 **Prioridade:** Crítica  
 **Estimativa:** 3 pontos  
@@ -337,15 +337,15 @@ GET /chamados?status=ABERTO\&titulo=impressora
 
 #### Critérios de aceite
 
-* \[ ] O novo status aceita `ABERTO`, `EM\_ANDAMENTO` ou `FECHADO`.
-* \[ ] Somente o proprietário pode atualizar o chamado.
-* \[ ] Chamado inexistente retorna `404 Not Found`.
-* \[ ] Chamado pertencente a outro usuário retorna `404 Not Found`.
-* \[ ] Status inválido retorna `400 Bad Request`.
-* \[ ] Transição não permitida retorna `400 Bad Request`.
-* \[ ] Um chamado `FECHADO` não pode voltar para `ABERTO`.
-* \[ ] Atualização válida retorna `200 OK`.
-* \[ ] Requisição sem autenticação retorna `401 Unauthorized`.
+* \[x] O novo status aceita `ABERTO`, `EM\_ANDAMENTO` ou `FECHADO`.
+* \[x] Somente o proprietário pode atualizar o chamado.
+* \[x] Chamado inexistente retorna `404 Not Found`.
+* \[x] Chamado pertencente a outro usuário retorna `404 Not Found`.
+* \[x] Status inválido retorna `400 Bad Request`.
+* \[x] Transição não permitida retorna `400 Bad Request`.
+* \[x] Um chamado `FECHADO` não pode voltar para `ABERTO`.
+* \[x] Atualização válida retorna `200 OK`.
+* \[x] Requisição sem autenticação retorna `401 Unauthorized`.
 
 #### Exemplo de entrada
 

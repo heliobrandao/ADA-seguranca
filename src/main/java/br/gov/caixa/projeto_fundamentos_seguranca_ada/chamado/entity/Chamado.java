@@ -102,6 +102,10 @@ public class Chamado {
         return status;
     }
 
+    public void atualizarStatus(StatusChamado status) {
+        this.status = status;
+    }
+
     public LocalDateTime getCriadoEm() {
         return criadoEm;
     }
