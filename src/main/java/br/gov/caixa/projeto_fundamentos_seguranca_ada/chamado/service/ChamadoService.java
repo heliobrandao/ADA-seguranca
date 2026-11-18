@@ -4,7 +4,6 @@ import br.gov.caixa.projeto_fundamentos_seguranca_ada.chamado.dto.ChamadoRequest
 import br.gov.caixa.projeto_fundamentos_seguranca_ada.chamado.dto.ChamadoResponse;
 import br.gov.caixa.projeto_fundamentos_seguranca_ada.chamado.entity.Chamado;
 import br.gov.caixa.projeto_fundamentos_seguranca_ada.chamado.entity.PrioridadeChamado;
-import br.gov.caixa.projeto_fundamentos_seguranca_ada.chamado.entity.StatusChamado;
 import br.gov.caixa.projeto_fundamentos_seguranca_ada.chamado.repository.ChamadoRepository;
 import br.gov.caixa.projeto_fundamentos_seguranca_ada.usuario.entity.Usuario;
 import br.gov.caixa.projeto_fundamentos_seguranca_ada.usuario.repository.UsuarioRepository;
@@ -28,10 +27,9 @@ public class ChamadoService {
     }
 
     @Transactional(readOnly = true)
-    public List<ChamadoResponse> listarMeusChamados(
-            String username, StatusChamado status, String titulo) {
+    public List<ChamadoResponse> listarMeusChamados(String username) {
         return chamadoRepository
-                .buscarPorUsuarioEFiltros(username, status, titulo)
+                .findAllByUsuario_UsernameOrderByCriadoEmDesc(username)
                 .stream()
                 .map(chamado -> new ChamadoResponse(
                         chamado.getId(),
