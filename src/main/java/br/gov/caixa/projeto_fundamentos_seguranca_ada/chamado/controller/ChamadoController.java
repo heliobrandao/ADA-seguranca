@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
 import br.gov.caixa.projeto_fundamentos_seguranca_ada.chamado.dto.AtualizarStatusRequest;
 import br.gov.caixa.projeto_fundamentos_seguranca_ada.chamado.dto.ChamadoRequest;
 import br.gov.caixa.projeto_fundamentos_seguranca_ada.chamado.dto.ChamadoResponse;
@@ -49,7 +50,8 @@ public class ChamadoController {
                 chamadoRequest,
                 jwt.getSubject());
 
-        return ResponseEntity.ok(new ChamadoResponse(
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body(new ChamadoResponse(
                 response.getId(),
                 response.getTitulo(),
                 response.getDescricao(),

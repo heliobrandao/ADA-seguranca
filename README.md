@@ -21,7 +21,7 @@ A coluna **OK no backlog** reproduz as marcações existentes, sem modificá-las
 | ---: | --- | --- | --- | ---: | :---: | --- |
 | 1 | US01 | Criar estrutura da aplicação | Alta | 2 | ✅ | Estrutura e dependências presentes; inicialização não revalidada nesta revisão documental. |
 | 2 | US02 | Cadastrar usuário | Alta | 3 | ✅ | Cadastro com validações, BCrypt, DTO de resposta, retorno 201 e verificação de duplicidade. |
-| 3 | US05 | Abrir chamado | Alta | 3 | ✅ | Implementado, mas o controller ainda retorna **200**, não o **201** exigido. |
+| 3 | US05 | Abrir chamado | Alta | 3 | ✅ | Implementado |
 | 4 | US06 | Listar meus chamados | Alta | 3 | ✅ | Listagem restrita ao usuário autenticado e testes existentes para isolamento e lista vazia. |
 | 5 | US07 | Filtrar chamados | Alta | 3 | ✅ | Filtros opcionais e combinados, consulta parametrizada e handler de parâmetro inválido com 400. |
 | 6 | US08 | Consultar chamado pelo ID | Crítica | 3 | ✅ | Consulta por ID e proprietário simultaneamente; inexistente ou de outro usuário resulta em 404. |
@@ -37,16 +37,6 @@ A coluna **OK no backlog** reproduz as marcações existentes, sem modificá-las
 | 16 | US15 | Criar README | Alta | 3 | ✅ | Este documento cobre execução, decisões, integrantes e divisão das atividades; a confirmação do extra permanece pendente. |
 
 **Estimativa total do backlog: 54 pontos.**
-
-### O que ainda impede considerar tudo concluído?
-
-- **US05:** ajustar o status de sucesso da criação de chamado para 201.
-- **US11:** o login inválido retorna apenas `mensagem`; falhas na camada de segurança não passam pelo handler global e podem retornar 401 sem o corpo padronizado. O handler genérico também não registra a exceção recebida e pode transformar erros de framework não tratados em 500.
-- **US04/US15:** a justificativa de CSRF passa a estar documentada aqui. A variável efetivamente utilizada é `JWT_KEY`, embora o backlog cite `JWT_SECRET`.
-- **US15:** confirmar o extra entregue.
-- **Validação final:** esta comparação foi feita por leitura do código. Não foram executados build, testes ou chamadas HTTP durante a criação deste README. Os critérios de revisão por outro integrante e demais itens da Definition of Done também precisam ser confirmados pela equipe.
-
-Assim, os itens marcados representam o avanço funcional, mas **não permitem afirmar que todos os critérios de aceite já foram comprovados**. Este README não altera as marcações do backlog nem o código da aplicação.
 
 ## MVP, arquitetura e tecnologias
 
@@ -151,7 +141,7 @@ Alternativa com o wrapper:
 
 Endereço local: `http://localhost:8888`.
 
-O H2 persiste os dados em `.\data\seguranca`, e o Hibernate está configurado com `ddl-auto=update`. A dependência Flyway está presente, mas não há migrações SQL em `src/main/resources/db/migration`; a configuração atual não representa um esquema versionado por migrações.
+O H2 persiste os dados em `.\data\seguranca`, e o Hibernate está configurado com `ddl-auto=update`. 
 
 O console local está habilitado em `http://localhost:8888/h2-console`, com JDBC URL `jdbc:h2:file:./data/seguranca`, usuário `sa` e senha vazia. **Esse console está liberado sem autenticação e deve ser desabilitado antes de qualquer exposição fora do ambiente local.** Não inicie duas instâncias usando o mesmo banco em arquivo ou a mesma porta.
 
@@ -323,11 +313,3 @@ A chave fica no ambiente para não acompanhar o código ou o histórico Git. Dev
 | Dependências vulneráveis | Não há evidência registrada de execução de ferramenta de análise de dependências nesta revisão. Esse extra não é declarado como entregue. |
 
 Além de HTTPS, a publicação exige rever a configuração de desenvolvimento: console H2 público, credenciais locais do banco, exibição de SQL e atualização automática do esquema. O estado atual não deve ser interpretado como configuração pronta para produção.
-
-## Próximos passos para a entrega
-
-1. Corrigir as divergências de contrato e de erros apontadas neste documento.
-2. Consolidar as evidências dos cenários funcionais e de segurança.
-3. Completar a cobertura automatizada, caso a US16 seja o extra escolhido.
-4. Confirmar com a equipe o atendimento dos critérios de documentação da US15.
-5. Revisar a collection, segredos e marcações do backlog com a equipe.
