@@ -33,26 +33,14 @@ public class ChamadoService {
         return chamadoRepository
                 .buscarPorUsuarioEFiltros(username, status, titulo)
                 .stream()
-                .map(this::paraResposta)
+                .map(chamado -> new ChamadoResponse(
+                        chamado.getId(),
+                        chamado.getTitulo(),
+                        chamado.getDescricao(),
+                        chamado.getPrioridade(),
+                        chamado.getStatus(),
+                        chamado.getCriadoEm()))
                 .toList();
-    }
-
-    @Transactional(readOnly = true)
-    public ChamadoResponse consultarMeuChamado(Long id, String username) {
-        return paraResposta(buscarChamadoDoUsuario(id, username));
-    }
-
-    @Transactional
-    public ChamadoResponse atualizarStatus(Long id, String username, StatusChamado novoStatus) {
-        Chamado chamado = buscarChamadoDoUsuario(id, username);
-        if (chamado.getStatus() == StatusChamado.FECHADO && novoStatus == StatusChamado.ABERTO) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "Um chamado fechado não pode voltar para aberto.");
-        }
-
-        chamado.atualizarStatus(novoStatus);
-        return paraResposta(chamadoRepository.save(chamado));
     }
 
     public Chamado criarChamado(ChamadoRequest request, String username) {
@@ -64,26 +52,9 @@ public class ChamadoService {
         Chamado chamado = new Chamado(
                 request.titulo(),
                 request.descricao(),
-                request.prioridade(),
+                PrioridadeChamado.valueOf(request.prioridade()),
                 usuario);
 
         return chamadoRepository.save(chamado);
-    }
-
-    private Chamado buscarChamadoDoUsuario(Long id, String username) {
-        return chamadoRepository.buscarPorIdEUsuario(id, username)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Chamado não encontrado."));
-    }
-
-    private ChamadoResponse paraResposta(Chamado chamado) {
-        return new ChamadoResponse(
-                chamado.getId(),
-                chamado.getTitulo(),
-                chamado.getDescricao(),
-                chamado.getPrioridade(),
-                chamado.getStatus(),
-                chamado.getCriadoEm());
     }
 }

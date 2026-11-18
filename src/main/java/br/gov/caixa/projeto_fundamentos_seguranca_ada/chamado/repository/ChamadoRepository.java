@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ChamadoRepository extends JpaRepository<Chamado, Long> {
 
@@ -26,13 +25,4 @@ public interface ChamadoRepository extends JpaRepository<Chamado, Long> {
             @Param("username") String username,
             @Param("status") StatusChamado status,
             @Param("titulo") String titulo);
-
-    @Query("""
-            select c from Chamado c
-            where c.id = :id
-              and c.usuario.username = :username
-            """)
-    Optional<Chamado> buscarPorIdEUsuario(
-            @Param("id") Long id,
-            @Param("username") String username);
 }

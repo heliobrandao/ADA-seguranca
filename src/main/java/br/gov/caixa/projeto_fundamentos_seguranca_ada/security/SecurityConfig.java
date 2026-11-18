@@ -14,6 +14,19 @@ import org.springframework.security.config.Customizer;
 @Configuration
 public class SecurityConfig {
 
+        /*
+         * Configuração de segurança do Spring Security para a aplicação.
+         * AuthenticationProvider recebe o username e a senha enviados no login
+         * O DaoAuthenticationProvider chama UsuarioDetailsService
+         * Ele busca o usuario e entrega o hash salvo por
+         * UsuarioUserDetails.getPassword()
+         * utiliza o BCryptPasswordEncoder para verificar a senha hash.
+         * O fluxo de autenticação segue:
+         * login -> AuthenticationProvider -> DaoAuthenticationProvider ->
+         * UsuarioDetailsService -> UsuarioUserDetails -> PasswordEncoder.
+         */
+
+
         @Bean
         public SecurityFilterChain securityFilterChain(HttpSecurity http)
                         throws Exception {

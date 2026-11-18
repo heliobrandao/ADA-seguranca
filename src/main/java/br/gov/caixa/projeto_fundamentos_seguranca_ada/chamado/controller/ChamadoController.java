@@ -2,25 +2,22 @@ package br.gov.caixa.projeto_fundamentos_seguranca_ada.chamado.controller;
 
 import java.util.List;
 
-import br.gov.caixa.projeto_fundamentos_seguranca_ada.chamado.dto.ChamadoRequest;
-import br.gov.caixa.projeto_fundamentos_seguranca_ada.chamado.dto.ChamadoResponse;
-import br.gov.caixa.projeto_fundamentos_seguranca_ada.chamado.dto.StatusChamadoRequest;
-import br.gov.caixa.projeto_fundamentos_seguranca_ada.chamado.entity.Chamado;
-import br.gov.caixa.projeto_fundamentos_seguranca_ada.chamado.entity.StatusChamado;
-import br.gov.caixa.projeto_fundamentos_seguranca_ada.chamado.service.ChamadoService;
-import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.jwt.Jwt;
+import br.gov.caixa.projeto_fundamentos_seguranca_ada.chamado.dto.ChamadoResponse;
+import br.gov.caixa.projeto_fundamentos_seguranca_ada.chamado.entity.Chamado;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import br.gov.caixa.projeto_fundamentos_seguranca_ada.chamado.dto.ChamadoRequest;
+import br.gov.caixa.projeto_fundamentos_seguranca_ada.chamado.service.ChamadoService;
+import jakarta.validation.Valid;
+import org.springframework.security.oauth2.jwt.Jwt;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/chamados")
@@ -34,28 +31,8 @@ public class ChamadoController {
 
     @GetMapping
     public ResponseEntity<List<ChamadoResponse>> listarMeusChamados(
-            @AuthenticationPrincipal Jwt jwt,
-            @RequestParam(required = false) String status,
-            @RequestParam(required = false) String titulo) {
-        return ResponseEntity.ok(chamadoService.listarMeusChamados(jwt.getSubject(),
-                status != null ? StatusChamado.valueOf(status) : null,
-                titulo));
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<ChamadoResponse> consultarMeuChamado(
-            @PathVariable Long id,
             @AuthenticationPrincipal Jwt jwt) {
-        return ResponseEntity.ok(chamadoService.consultarMeuChamado(id, jwt.getSubject()));
-    }
-
-    @PatchMapping("/{id}/status")
-    public ResponseEntity<ChamadoResponse> atualizarStatus(
-            @PathVariable Long id,
-            @Valid @RequestBody StatusChamadoRequest request,
-            @AuthenticationPrincipal Jwt jwt) {
-        return ResponseEntity.ok(
-                chamadoService.atualizarStatus(id, jwt.getSubject(), request.status()));
+        return ResponseEntity.ok(chamadoService.listarMeusChamados(jwt.getSubject()));
     }
 
     @PostMapping
@@ -67,14 +44,13 @@ public class ChamadoController {
                 chamadoRequest,
                 jwt.getSubject());
 
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new ChamadoResponse(
-                        response.getId(),
-                        response.getTitulo(),
-                        response.getDescricao(),
-                        response.getPrioridade(),
-                        response.getStatus(),
-                        response.getCriadoEm()));
+        return ResponseEntity.ok(new ChamadoResponse(
+                response.getId(),
+                response.getTitulo(),
+                response.getDescricao(),
+                response.getPrioridade(),
+                response.getStatus(),
+                response.getCriadoEm()));
     }
 
 }
