@@ -64,16 +64,16 @@ Caso um usuário tente acessar um chamado de outra pessoa, a API deve responder 
 
 #### Critérios de aceite
 
-* \[ ] Projeto criado com Spring Boot.
-* \[ ] Projeto configurado com Java 17.
-* \[ ] Projeto utilizando Maven.
-* \[ ] Dependência Spring Web adicionada.
-* \[ ] Dependência Spring Data JPA adicionada.
-* \[ ] Dependência Spring Security adicionada.
-* \[ ] Dependência Validation adicionada.
-* \[ ] Dependência H2 adicionada.
-* \[ ] Aplicação inicia sem erros.
-* \[ ] Pacotes separados por responsabilidade.
+* \[x] Projeto criado com Spring Boot.
+* \[x] Projeto configurado com Java 17.
+* \[x] Projeto utilizando Maven.
+* \[x] Dependência Spring Web adicionada.
+* \[x] Dependência Spring Data JPA adicionada.
+* \[x] Dependência Spring Security adicionada.
+* \[x] Dependência Validation adicionada.
+* \[x] Dependência H2 adicionada.
+* \[x] Aplicação inicia sem erros.
+* \[x] Pacotes separados por responsabilidade.
 
 #### Estrutura sugerida
 
@@ -110,19 +110,19 @@ helpdesk
 
 #### Critérios de aceite
 
-* \[ ] O nome é obrigatório.
-* \[ ] O nome deve possuir entre 2 e 100 caracteres.
-* \[ ] O username é obrigatório.
-* \[ ] O username deve possuir entre 3 e 30 caracteres.
-* \[ ] O username aceita somente letras, números, ponto e sublinhado.
-* \[ ] O username deve ser único.
-* \[ ] A senha deve possuir pelo menos 8 caracteres.
-* \[ ] A senha deve ser armazenada como hash BCrypt.
-* \[ ] A senha original não pode ser persistida.
-* \[ ] A senha e o hash não podem aparecer na resposta.
-* \[ ] Cadastro válido retorna `201 Created`.
-* \[ ] Dados inválidos retornam `400 Bad Request`.
-* \[ ] Username já cadastrado retorna `409 Conflict`.
+* \[x] O nome é obrigatório.
+* \[x] O nome deve possuir entre 2 e 100 caracteres.
+* \[x] O username é obrigatório.
+* \[x] O username deve possuir entre 3 e 30 caracteres.
+* \[x] O username aceita somente letras, números, ponto e sublinhado.
+* \[x] O username deve ser único.
+* \[x] A senha deve possuir pelo menos 8 caracteres.
+* \[x] A senha deve ser armazenada como hash BCrypt.
+* \[x] A senha original não pode ser persistida.
+* \[x] A senha e o hash não podem aparecer na resposta.
+* \[x] Cadastro válido retorna `201 Created`.
+* \[x] Dados inválidos retornam `400 Bad Request`.
+* \[x] Username já cadastrado retorna `409 Conflict`.
 
 #### Exemplo de entrada
 
@@ -160,15 +160,15 @@ helpdesk
 
 #### Critérios de aceite
 
-* \[ ] Username e senha válidos retornam `200 OK`.
-* \[ ] A API gera um token JWT.
-* \[ ] O token possui tempo de expiração definido.
-* \[ ] O token não contém senha ou informação sensível.
-* \[ ] A senha é comparada com o hash BCrypt armazenado.
-* \[ ] Usuário inexistente retorna `401 Unauthorized`.
-* \[ ] Senha incorreta retorna `401 Unauthorized`.
-* \[ ] Usuário inexistente e senha incorreta retornam a mesma mensagem.
-* \[ ] A mensagem esperada é `Usuário ou senha inválidos.`.
+* \[x] Username e senha válidos retornam `200 OK`.
+* \[x] A API gera um token JWT.
+* \[x] O token possui tempo de expiração definido.
+* \[x] O token não contém senha ou informação sensível.
+* \[x] A senha é comparada com o hash BCrypt armazenado.
+* \[x] Usuário inexistente retorna `401 Unauthorized`.
+* \[x] Senha incorreta retorna `401 Unauthorized`.
+* \[x] Usuário inexistente e senha incorreta retornam a mesma mensagem.
+* \[x] A mensagem esperada é `Usuário ou senha inválidos.`.
 
 #### Exemplo de entrada
 
@@ -199,19 +199,19 @@ helpdesk
 
 #### Critérios de aceite
 
-* \[ ] `POST /user` permanece público.
-* \[ ] `POST /authenticate` permanece público.
-* \[ ] Todas as rotas `/chamados/\*\*` exigem autenticação.
-* \[ ] Token válido permite acesso.
-* \[ ] Token ausente retorna `401 Unauthorized`.
-* \[ ] Token adulterado retorna `401 Unauthorized`.
-* \[ ] Token expirado retorna `401 Unauthorized`.
-* \[ ] A assinatura do token é validada.
-* \[ ] A identidade do usuário é obtida pelo token.
-* \[ ] A chave JWT fica fora do código-fonte.
-* \[ ] A chave JWT é carregada por variável de ambiente.
-* \[ ] A aplicação utiliza sessão stateless.
-* \[ ] A decisão de desabilitar CSRF está documentada no README.
+* \[x] `POST /user` permanece público.
+* \[x] `POST /authenticate` permanece público.
+* \[x] Todas as rotas `/chamados/\*\*` exigem autenticação.
+* \[x] Token válido permite acesso.
+* \[x] Token ausente retorna `401 Unauthorized`.
+* \[x] Token adulterado retorna `401 Unauthorized`.
+* \[x] Token expirado retorna `401 Unauthorized`.
+* \[x] A assinatura do token é validada.
+* \[x] A identidade do usuário é obtida pelo token.
+* \[x] A chave JWT fica fora do código-fonte.
+* \[x] A chave JWT é carregada por variável de ambiente.
+* \[x] A aplicação utiliza sessão stateless.
+* \[x] A decisão de desabilitar CSRF está documentada no README.
 
 **Prioridade:** Crítica  
 **Estimativa:** 5 pontos
@@ -228,19 +228,19 @@ helpdesk
 
 #### Critérios de aceite
 
-* \[ ] O usuário deve estar autenticado.
-* \[ ] O título é obrigatório.
-* \[ ] O título deve possuir entre 5 e 100 caracteres.
-* \[ ] A descrição é obrigatória.
-* \[ ] A descrição deve possuir no máximo 2.000 caracteres.
-* \[ ] A prioridade aceita `BAIXA`, `MEDIA` ou `ALTA`.
-* \[ ] O status inicial é definido automaticamente como `ABERTO`.
-* \[ ] A data de criação é preenchida automaticamente.
-* \[ ] O proprietário é identificado pelo token.
-* \[ ] A API não recebe um ID de usuário para definir o proprietário.
-* \[ ] Chamado válido retorna `201 Created`.
-* \[ ] Dados inválidos retornam `400 Bad Request`.
-* \[ ] Requisição sem autenticação retorna `401 Unauthorized`.
+* \[x] O usuário deve estar autenticado.
+* \[x] O título é obrigatório.
+* \[x] O título deve possuir entre 5 e 100 caracteres.
+* \[x] A descrição é obrigatória.
+* \[x] A descrição deve possuir no máximo 2.000 caracteres.
+* \[x] A prioridade aceita `BAIXA`, `MEDIA` ou `ALTA`.
+* \[x] O status inicial é definido automaticamente como `ABERTO`.
+* \[x] A data de criação é preenchida automaticamente.
+* \[x] O proprietário é identificado pelo token.
+* \[x] A API não recebe um ID de usuário para definir o proprietário.
+* \[x] Chamado válido retorna `201 Created`.
+* \[x] Dados inválidos retornam `400 Bad Request`.
+* \[x] Requisição sem autenticação retorna `401 Unauthorized`.
 
 #### Exemplo de entrada
 
@@ -266,12 +266,12 @@ helpdesk
 
 #### Critérios de aceite
 
-* \[ ] O usuário deve estar autenticado.
-* \[ ] Somente chamados do usuário autenticado são retornados.
-* \[ ] Chamados de outros usuários nunca aparecem na resposta.
-* \[ ] Quando não houver chamados, a API retorna uma lista vazia.
-* \[ ] A listagem válida retorna `200 OK`.
-* \[ ] Requisição sem token válido retorna `401 Unauthorized`.
+* \[x] O usuário deve estar autenticado.
+* \[x] Somente chamados do usuário autenticado são retornados.
+* \[x] Chamados de outros usuários nunca aparecem na resposta.
+* \[x] Quando não houver chamados, a API retorna uma lista vazia.
+* \[x] A listagem válida retorna `200 OK`.
+* \[x] Requisição sem token válido retorna `401 Unauthorized`.
 
 **Prioridade:** Alta  
 **Estimativa:** 3 pontos  
@@ -293,13 +293,13 @@ GET /chamados?status=ABERTO\&titulo=impressora
 
 #### Critérios de aceite
 
-* \[ ] O filtro por status é opcional.
-* \[ ] O filtro por parte do título é opcional.
-* \[ ] Os dois filtros podem ser utilizados juntos.
-* \[ ] A busca retorna somente chamados do usuário autenticado.
-* \[ ] Status inválido retorna `400 Bad Request`.
-* \[ ] A consulta utiliza Spring Data ou JPQL parametrizado.
-* \[ ] Não existe concatenação de SQL com valores recebidos do cliente.
+* \[x] O filtro por status é opcional.
+* \[x] O filtro por parte do título é opcional.
+* \[x] Os dois filtros podem ser utilizados juntos.
+* \[x] A busca retorna somente chamados do usuário autenticado.
+* \[x] Status inválido retorna `400 Bad Request`.
+* \[x] A consulta utiliza Spring Data ou JPQL parametrizado.
+* \[x] Não existe concatenação de SQL com valores recebidos do cliente.
 
 **Prioridade:** Alta  
 **Estimativa:** 3 pontos  
@@ -315,13 +315,13 @@ GET /chamados?status=ABERTO\&titulo=impressora
 
 #### Critérios de aceite
 
-* \[ ] Chamado pertencente ao usuário retorna `200 OK`.
-* \[ ] Chamado inexistente retorna `404 Not Found`.
-* \[ ] Chamado pertencente a outro usuário retorna `404 Not Found`.
-* \[ ] As duas situações de 404 utilizam o mesmo formato de resposta.
-* \[ ] A consulta filtra simultaneamente pelo ID e pelo proprietário.
-* \[ ] A consulta não busca apenas pelo ID para depois revelar o proprietário.
-* \[ ] Requisição sem token válido retorna `401 Unauthorized`.
+* \[x] Chamado pertencente ao usuário retorna `200 OK`.
+* \[x] Chamado inexistente retorna `404 Not Found`.
+* \[x] Chamado pertencente a outro usuário retorna `404 Not Found`.
+* \[x] As duas situações de 404 utilizam o mesmo formato de resposta.
+* \[x] A consulta filtra simultaneamente pelo ID e pelo proprietário.
+* \[x] A consulta não busca apenas pelo ID para depois revelar o proprietário.
+* \[x] Requisição sem token válido retorna `401 Unauthorized`.
 
 **Prioridade:** Crítica  
 **Estimativa:** 3 pontos  
@@ -337,21 +337,21 @@ GET /chamados?status=ABERTO\&titulo=impressora
 
 #### Critérios de aceite
 
-* \[ ] O novo status aceita `ABERTO`, `EM\_ANDAMENTO` ou `FECHADO`.
-* \[ ] Somente o proprietário pode atualizar o chamado.
-* \[ ] Chamado inexistente retorna `404 Not Found`.
-* \[ ] Chamado pertencente a outro usuário retorna `404 Not Found`.
-* \[ ] Status inválido retorna `400 Bad Request`.
-* \[ ] Transição não permitida retorna `400 Bad Request`.
-* \[ ] Um chamado `FECHADO` não pode voltar para `ABERTO`.
-* \[ ] Atualização válida retorna `200 OK`.
-* \[ ] Requisição sem autenticação retorna `401 Unauthorized`.
+* \[x] O novo status aceita `ABERTO`, `EM\_ANDAMENTO` ou `FECHADO`.
+* \[x] Somente o proprietário pode atualizar o chamado.
+* \[x] Chamado inexistente retorna `404 Not Found`.
+* \[x] Chamado pertencente a outro usuário retorna `404 Not Found`.
+* \[x] Status inválido retorna `400 Bad Request`.
+* \[x] Transição não permitida retorna `400 Bad Request`.
+* \[x] Um chamado `FECHADO` não pode voltar para `ABERTO`.
+* \[x] Atualização válida retorna `200 OK`.
+* \[x] Requisição sem autenticação retorna `401 Unauthorized`.
 
 #### Exemplo de entrada
 
 ```json
 {
-  "status": "EM\_ANDAMENTO"
+  "status": "EM_ANDAMENTO"
 }
 ```
 
@@ -545,24 +545,24 @@ GET /chamados?status=ABERTO\&titulo=impressora
 
 # 5\. Backlog priorizado
 
-|Ordem|História|Descrição|Prioridade|Pontos|
-|-:|-|-|-|-:|
-|1|US01|Criar estrutura da aplicação|Alta|2|
-|2|US02|Cadastrar usuário|Alta|3|
-|3|US05|Abrir chamado|Alta|3|
-|4|US06|Listar meus chamados|Alta|3|
-|5|US07|Filtrar chamados|Alta|3|
-|6|US08|Consultar chamado pelo ID|Crítica|3|
-|7|US09|Atualizar status|Alta|3|
-|8|US10|Validar dados de entrada|Alta|3|
-|9|US11|Padronizar respostas de erro|Alta|3|
-|10|US03|Autenticar usuário|Crítica|5|
-|11|US04|Proteger endpoints com JWT|Crítica|5|
-|12|US12|Garantir propriedade dos chamados|Crítica|5|
-|13|US13|Proteger segredos e credenciais|Crítica|2|
-|14|US14|Validar cenários críticos|Alta|3|
-|15|US16|Criar testes automatizados|Média|5|
-|16|US15|Criar README|Alta|3|
+|Ordem|História|Descrição|Prioridade|Pontos|OK|
+|-:|-|-|-|-:|:-:|
+|1|US01|Criar estrutura da aplicação|Alta|2|✅|
+|2|US02|Cadastrar usuário|Alta|3|✅|
+|3|US05|Abrir chamado|Alta|3|✅|
+|4|US06|Listar meus chamados|Alta|3|✅|
+|5|US07|Filtrar chamados|Alta|3|✅|
+|6|US08|Consultar chamado pelo ID|Crítica|3|✅|
+|7|US09|Atualizar status|Alta|3 |✅|
+|8|US10|Validar dados de entrada|Alta|3||
+|9|US11|Padronizar respostas de erro|Alta|3||
+|10|US03|Autenticar usuário|Crítica|5|✅|
+|11|US04|Proteger endpoints com JWT|Crítica|5|✅|
+|12|US12|Garantir propriedade dos chamados|Crítica|5||
+|13|US13|Proteger segredos e credenciais|Crítica|2||
+|14|US14|Validar cenários críticos|Alta|3||
+|15|US16|Criar testes automatizados|Média|5||
+|16|US15|Criar README|Alta|3|✅|
 
 **Estimativa total:** 54 pontos.
 

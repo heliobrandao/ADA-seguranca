@@ -109,4 +109,8 @@ public class Chamado {
     public Usuario getUsuario() {
         return usuario;
     }
+
+    public void setStatus(StatusChamado status) {
+        this.status = status;
+    }
 }
